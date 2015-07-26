@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 072cf44f4dad1e1428015d59d374cf0d
+timeCreated: 1429048208
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: battery
+    100002: //RootNode
+    100004: frame
+    100006: frame_inside
+    100008: keep
+    100010: lens
+    100012: lens_ring
+    100014: nose
+    100016: pad_fl
+    100018: pad_fr
+    100020: pad_rl
+    100022: pad_rr
+    100024: propeller_fl
+    100026: propeller_fr
+    100028: propeller_rl
+    100030: propeller_rr
+    100032: strap
+    100034: top
+    400000: battery
+    400002: //RootNode
+    400004: frame
+    400006: frame_inside
+    400008: keep
+    400010: lens
+    400012: lens_ring
+    400014: nose
+    400016: pad_fl
+    400018: pad_fr
+    400020: pad_rl
+    400022: pad_rr
+    400024: propeller_fl
+    400026: propeller_fr
+    400028: propeller_rl
+    400030: propeller_rr
+    400032: strap
+    400034: top
+    2300000: battery
+    2300002: frame
+    2300004: frame_inside
+    2300006: keep
+    2300008: lens
+    2300010: lens_ring
+    2300012: nose
+    2300014: pad_fl
+    2300016: pad_fr
+    2300018: pad_rl
+    2300020: pad_rr
+    2300022: propeller_fl
+    2300024: propeller_fr
+    2300026: propeller_rl
+    2300028: propeller_rr
+    2300030: strap
+    2300032: top
+    3300000: battery
+    3300002: frame
+    3300004: frame_inside
+    3300006: keep
+    3300008: lens
+    3300010: lens_ring
+    3300012: nose
+    3300014: pad_fl
+    3300016: pad_fr
+    3300018: pad_rl
+    3300020: pad_rr
+    3300022: propeller_fl
+    3300024: propeller_fr
+    3300026: propeller_rl
+    3300028: propeller_rr
+    3300030: strap
+    3300032: top
+    4300000: keep
+    4300002: lens_ring
+    4300004: top
+    4300006: battery
+    4300008: nose
+    4300010: lens
+    4300012: frame_inside
+    4300014: pad_fr
+    4300016: pad_rl
+    4300018: pad_fl
+    4300020: pad_rr
+    4300022: frame
+    4300024: strap
+    4300026: propeller_fr
+    4300028: propeller_rl
+    4300030: propeller_rr
+    4300032: propeller_fl
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .300000012
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
