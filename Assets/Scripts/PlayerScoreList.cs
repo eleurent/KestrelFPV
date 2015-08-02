@@ -6,10 +6,9 @@ using System;
 public class PlayerScoreList : MonoBehaviour {
 
 	public GameObject playerScoreEntryPrefab;
-	bool shouldUpdate;
+	public bool shouldUpdate = true;
 
 	void Update () {
-		shouldUpdate = true;
 		if(!shouldUpdate) {
 			return;
 		}
@@ -21,9 +20,7 @@ public class PlayerScoreList : MonoBehaviour {
 			Destroy (c.gameObject);
 		}
 
-//		string[] names = scoreManager.GetPlayerNames("kills");
-
-		
+		// Populate
 		foreach(PhotonPlayer player in PhotonNetwork.playerList) {
 			GameObject go = (GameObject)Instantiate(playerScoreEntryPrefab);
 			go.transform.SetParent(this.transform);
@@ -32,5 +29,10 @@ public class PlayerScoreList : MonoBehaviour {
 			TimeSpan timeSpan = TimeSpan.FromSeconds(player.GetTime());
 			go.transform.Find ("Time").GetComponent<Text>().text = String.Format("{0:D2}:{1:D2}:{2:D3}",timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
 		}
+		shouldUpdate = false;
+	}
+
+	void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
+		shouldUpdate = true;
 	}
 }

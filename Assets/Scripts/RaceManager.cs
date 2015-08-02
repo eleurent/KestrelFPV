@@ -19,6 +19,7 @@ public class RaceManager : MonoBehaviour {
 	private int currentLap = 0;
 	private double startTime;
 	private double endTime;
+	private bool shouldShowScoreCanvas;
 
 	void Start () {
 		// Register gates;
@@ -49,11 +50,11 @@ public class RaceManager : MonoBehaviour {
 			startTime = PhotonNetwork.time;
 			lapText.text = "Lap: 1/" + numberOfLaps;
 			ResetMyScore();
+			shouldShowScoreCanvas = false;
 		}
 	}
 	
 	public void NextGate () {
-		Debug.Log ("Next Gate");
 		currentGate = (currentGate + 1) % gates.Length;
 		gates [(currentGate+1)%gates.Length].GetComponent<RaceGate> ().setNextGate ();
 		gates[currentGate].GetComponent<RaceGate>().EnableGate();
@@ -74,9 +75,13 @@ public class RaceManager : MonoBehaviour {
 			// Change UI
 			SetTextColor(Color.green);
 			lapText.text = "Finished!";
+
 			// End race
 			raceStarted = false;
 			gates [currentGate].GetComponent<RaceGate>().DisableGate ();
+			shouldShowScoreCanvas = true;
+			TimeSpan timeSpan = TimeSpan.FromSeconds (PhotonNetwork.player.GetTime());
+			SetTimeText (String.Format ("{0:D2}:{1:D2}:{2:D3}", timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds));
 		} else {
 			// New lap
 			currentLap++;
@@ -105,14 +110,21 @@ public class RaceManager : MonoBehaviour {
 	void Update() {
 		if (raceStarted) {
 			double duration = PhotonNetwork.time - startTime;
-			TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
-			SetTimeText(String.Format("{0:D2}:{1:D2}:{2:D3}",timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds));
+			TimeSpan timeSpan = TimeSpan.FromSeconds (duration);
+			SetTimeText (String.Format ("{0:D2}:{1:D2}:{2:D3}", timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds));
 		}
 
-		if (Input.GetButtonDown("Score") && !scoreCanvas.activeSelf) {
-			scoreCanvas.SetActive (true);
+		if (Input.GetButtonDown("Score")) {
+			shouldShowScoreCanvas = true;
 		}
-		if (Input.GetButtonUp("Score") && scoreCanvas.activeSelf) {
+		if (Input.GetButtonUp ("Score")) {
+			shouldShowScoreCanvas = false;
+		}
+		if (shouldShowScoreCanvas && !scoreCanvas.activeSelf) {
+			scoreCanvas.SetActive (true);
+			scoreCanvas.GetComponentInChildren<PlayerScoreList>().shouldUpdate = true;
+		}
+		if (!shouldShowScoreCanvas && scoreCanvas.activeSelf) {
 			scoreCanvas.SetActive(false);
 		}
 	}
