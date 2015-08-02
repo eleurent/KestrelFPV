@@ -20,6 +20,7 @@ public class InRoomRoundTimer : MonoBehaviour
     public int TurnDuration = 1;                  // time per round/turn
 	public int BreakDuration = 1;                  // time per round/turn
 
+	private int gameMode;
 	private double StartTime;                        // this should could also be a private. i just like to see this in inspector
     private bool startRoundWhenTimeIsSynced;        // used in an edge-case when we wanted to set a start time but don't know it yet.
     private const string StartTimeKey = "st";       // the name of our "start time" custom property.
@@ -45,10 +46,25 @@ public class InRoomRoundTimer : MonoBehaviour
         PhotonNetwork.room.SetCustomProperties(startTimeProp);              // implement OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) to get this change everywhere
     }
 
+	public void Start()
+	{
+		if (PhotonNetwork.offlineMode) {
+			if (PlayerPrefs.HasKey(LobbyMenu.MODE_KEY)) {
+				gameMode = PlayerPrefs.GetInt(LobbyMenu.MODE_KEY);
+			}
+			this.StartRoundNow();
+		}
+	}
     
     /// <summary>Called by PUN when this client entered a room (no matter if joined or created).</summary>
     public void OnJoinedRoom()
     {
+		// Game mode
+		if (PhotonNetwork.room.customProperties.ContainsKey (LobbyMenu.MODE_KEY)) {
+			gameMode = (int)  PhotonNetwork.room.customProperties[LobbyMenu.MODE_KEY];
+		}
+
+		// Start time
         if (PhotonNetwork.isMasterClient)
         {
             this.StartRoundNow();
@@ -67,7 +83,6 @@ public class InRoomRoundTimer : MonoBehaviour
     /// <summary>Called by PUN when new properties for the room were set (by any client in the room).</summary>
     public void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
     {
-		Debug.Log ("Room Property changed");
         if (propertiesThatChanged.ContainsKey(StartTimeKey))
         {
             StartTime = (double)propertiesThatChanged[StartTimeKey];
@@ -95,49 +110,35 @@ public class InRoomRoundTimer : MonoBehaviour
         if (startRoundWhenTimeIsSynced) {
 			this.StartRoundNow ();   // the "time is known" check is done inside the method.
 		}
-		if (timeHasBeenSynced) {
-			double elapsedTime = (PhotonNetwork.time - StartTime);
-			double wrappedElapsedTime = elapsedTime % (TurnDuration+BreakDuration);
-			switch(phase) {
-			case 0:
+
+		if (LobbyMenu.MODES [gameMode] == "Race") {
+			if (timeHasBeenSynced) {
+				double elapsedTime = (PhotonNetwork.time - StartTime);
+				double wrappedElapsedTime = elapsedTime % (TurnDuration + BreakDuration);
+				switch (phase) {
+				case 0:
 				// Break phase
-				GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTimeText (string.Format("Start in: {0:0}", 0.5+BreakDuration-wrappedElapsedTime));
-				if (wrappedElapsedTime > BreakDuration) {
-					GetComponent<DroneNetworkManager> ().GetMyDrone().GetComponent<ResetDrone>().Restart();
-					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTextColor (Color.white);
-					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().StartRace ();
-					phase = 1;
+					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTimeText (string.Format ("Start in: {0:0}", 0.5 + BreakDuration - wrappedElapsedTime));
+					if (wrappedElapsedTime > BreakDuration) {
+						GetComponent<DroneNetworkManager> ().GetMyDrone ().GetComponent<ResetDrone> ().Restart ();
+						GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTextColor (Color.white);
+						GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().StartRace ();
+						phase = 1;
+					}
+					break;
+				case 1:
+				// Round phase
+					if (wrappedElapsedTime <= BreakDuration) {
+						GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetLapText ("Waiting...");
+						GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTextColor (Color.red);
+						GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().StopRace ();
+						phase = 0;
+					}
+					break;
 				}
-				break;
-			case 1:
-				// Turn phase
-				if (wrappedElapsedTime <= BreakDuration) {
-					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetLapText("Waiting...");
-					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().SetTextColor (Color.red);
-					GetComponent<DroneNetworkManager> ().RaceManager.GetComponent<RaceManager> ().StopRace ();
-					phase = 0;
-				}
-				break;
 			}
+		} else {
+			GetComponent<DroneNetworkManager> ().RaceManager.SetActive(false);
 		}
     }
-
-//    public void OnGUI()
-//    {
-//        // alternatively to doing this calculation here:
-//        // calculate these values in Update() and make them publicly available to all other scripts
-//		double elapsedTime = (PhotonNetwork.time - StartTime);
-//		double wrappedElapsedTime = elapsedTime % (TurnDuration+BreakDuration);
-//		double remainingTime = wrappedElapsedTime > BreakDuration ? TurnDuration + BreakDuration - wrappedElapsedTime : BreakDuration - wrappedElapsedTime; 
-//
-//
-//        // simple gui for output
-//        GUILayout.BeginArea(TextPos);
-//        GUILayout.Label(string.Format("remaining: {0:0.000}", remainingTime));
-////        if (GUILayout.Button("new round"))
-////        {
-////            this.StartRoundNow();
-////        }
-//        GUILayout.EndArea();
-//    }
 }

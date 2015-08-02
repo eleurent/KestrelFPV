@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skin: {fileID: 11400000, guid: 0a36872c871b46d4ea5e4e064f3bf975, type: 2}
-  WidthAndHeight: {x: 600, y: 400}
+  WidthAndHeight: {x: 800, y: 550}
 --- !u!196 &30
 NavMeshSettings:
   serializedVersion: 2
