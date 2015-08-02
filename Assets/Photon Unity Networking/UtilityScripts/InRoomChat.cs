@@ -11,8 +11,10 @@ public class InRoomChat : Photon.MonoBehaviour
     public List<string> messages = new List<string>();
     private string inputLine = "";
     private Vector2 scrollPos = Vector2.zero;
+	public GUISkin Skin;
 
     public static readonly string ChatRPC = "Chat";
+	private static string placeholder = "Press Enter to chat";
 
     public void Start()
     {
@@ -28,12 +30,19 @@ public class InRoomChat : Photon.MonoBehaviour
         {
             return;
         }
+
+		if (this.Skin != null)
+		{
+			GUI.skin = this.Skin;
+		}
         
         if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return))
         {
-            if (!string.IsNullOrEmpty(this.inputLine))
-            {
-                this.photonView.RPC("Chat", PhotonTargets.All, this.inputLine);
+			if (GUI.GetNameOfFocusedControl () == "ChatInput")
+			{
+				if (!string.IsNullOrEmpty(this.inputLine)) {
+					this.photonView.RPC("Chat", PhotonTargets.All, this.inputLine);
+				}
                 this.inputLine = "";
                 GUI.FocusControl("");
                 return; // printing the now modified list would result in an error. to avoid this, we just skip this single frame
@@ -58,8 +67,22 @@ public class InRoomChat : Photon.MonoBehaviour
         GUILayout.BeginHorizontal();
         GUI.SetNextControlName("ChatInput");
         inputLine = GUILayout.TextField(inputLine);
+
+
+		if (UnityEngine.Event.current.type == EventType.Repaint)
+		{
+			if (GUI.GetNameOfFocusedControl () == "ChatInput")
+			{
+				if (inputLine == placeholder) inputLine = "";
+			}
+			else
+			{
+				if (inputLine == "") inputLine = placeholder;
+			}
+		}
+		
 		// Send button
-//        if (GUILayout.Button("Send", GUILayout.ExpandWidth(false)))
+		//        if (GUILayout.Button("Send", GUILayout.ExpandWidth(false)))
 //        {
 //            this.photonView.RPC("Chat", PhotonTargets.All, this.inputLine);
 //            this.inputLine = "";

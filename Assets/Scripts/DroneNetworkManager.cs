@@ -7,6 +7,8 @@ public class DroneNetworkManager : MonoBehaviour
 	public GameObject OptionsPanel;
 	public GameObject RaceManager;
 	private GameObject myDrone;
+	public GUISkin Skin;
+
 
 	public void Awake()
 	{
@@ -53,6 +55,10 @@ public class DroneNetworkManager : MonoBehaviour
 
 	public void OnGUI()
 	{
+		if (this.Skin != null)
+		{
+			GUI.skin = this.Skin;
+		}
 		if (GUILayout.Button("Return to Lobby"))
 		{
 			PhotonNetwork.LeaveRoom();  // we will load the menu level when we successfully left the room
