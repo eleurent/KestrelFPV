@@ -78,6 +78,7 @@ MonoBehaviour:
   IsVisible: 1
   AlignBottom: 1
   messages: []
+  Skin: {fileID: 11400000, guid: 0a36872c871b46d4ea5e4e064f3bf975, type: 2}
 --- !u!114 &11485030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,6 +131,7 @@ MonoBehaviour:
   Cameras: {fileID: 0}
   OptionsPanel: {fileID: 0}
   RaceManager: {fileID: 0}
+  Skin: {fileID: 11400000, guid: 0a36872c871b46d4ea5e4e064f3bf975, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

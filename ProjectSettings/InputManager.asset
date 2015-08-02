@@ -246,11 +246,11 @@ InputManager:
     axis: 2
     joyNum: 0
   - serializedVersion: 3
-    m_Name: NextScene
+    m_Name: Score
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: n
+    positiveButton: left shift
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

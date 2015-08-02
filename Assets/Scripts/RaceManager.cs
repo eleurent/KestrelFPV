@@ -8,7 +8,8 @@ public class RaceManager : MonoBehaviour {
 
 	public GameObject[] gates;
 	public int numberOfLaps = 3;
-	public GameObject raceCanvas;
+	public GameObject timeCanvas;
+	public GameObject scoreCanvas;
 	public Text lapText;
 	public Text timeText;
 	public GameObject drone;
@@ -46,8 +47,9 @@ public class RaceManager : MonoBehaviour {
 			gates [currentGate].GetComponent<RaceGate> ().EnableGate ();
 			raceStarted = true;
 			startTime = PhotonNetwork.time;
+			lapText.text = "Lap: 1/" + numberOfLaps;
+			ResetMyScore();
 		}
-		lapText.text = "Lap: 1/" + numberOfLaps;
 	}
 	
 	public void NextGate () {
@@ -61,10 +63,18 @@ public class RaceManager : MonoBehaviour {
 	}
 
 	void NextLap() {
+		// Save score
+		if (currentLap > 0) {
+			PhotonNetwork.player.SetLap (currentLap);
+			PhotonNetwork.player.SetTime ((float)(PhotonNetwork.time - startTime));
+		}
+
 		// End of race
 		if (currentLap == numberOfLaps) {
+			// Change UI
 			SetTextColor(Color.green);
 			lapText.text = "Finished!";
+			// End race
 			raceStarted = false;
 			gates [currentGate].GetComponent<RaceGate>().DisableGate ();
 		} else {
@@ -87,11 +97,23 @@ public class RaceManager : MonoBehaviour {
 		timeText.color = c;
 	}
 
+	public void ResetMyScore() {
+		PhotonNetwork.player.SetLap (0);
+		PhotonNetwork.player.SetTime (0);
+	}
+
 	void Update() {
 		if (raceStarted) {
 			double duration = PhotonNetwork.time - startTime;
 			TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
 			SetTimeText(String.Format("{0:D2}:{1:D2}:{2:D3}",timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds));
+		}
+
+		if (Input.GetButtonDown("Score") && !scoreCanvas.activeSelf) {
+			scoreCanvas.SetActive (true);
+		}
+		if (Input.GetButtonUp("Score") && scoreCanvas.activeSelf) {
+			scoreCanvas.SetActive(false);
 		}
 	}
 }

@@ -6,39 +6,42 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PunPlayerScores : MonoBehaviour
 {
-    public const string PlayerScoreProp = "score";
+    public const string PlayerTimeProp = "time";
+	public const string PlayerLapProp = "lap";
 }
 
 
 static class ScoreExtensions
 {
-    public static void SetScore(this PhotonPlayer player, int newScore)
+    public static void SetTime(this PhotonPlayer player, float time)
     {
-        Hashtable score = new Hashtable();  // using PUN's implementation of Hashtable
-        score[PunPlayerScores.PlayerScoreProp] = newScore;
-
-        player.SetCustomProperties(score);  // this locally sets the score and will sync it in-game asap.
+		Hashtable prop = new Hashtable() {{PunPlayerScores.PlayerTimeProp, time}};
+		player.SetCustomProperties(prop);
     }
-
-    public static void AddScore(this PhotonPlayer player, int scoreToAddToCurrent)
+	
+    public static float GetTime(this PhotonPlayer player)
     {
-        int current = player.GetScore();
-        current = current + scoreToAddToCurrent;
-
-        Hashtable score = new Hashtable();  // using PUN's implementation of Hashtable
-        score[PunPlayerScores.PlayerScoreProp] = current;
-
-        player.SetCustomProperties(score);  // this locally sets the score and will sync it in-game asap.
-    }
-
-    public static int GetScore(this PhotonPlayer player)
-    {
-        object teamId;
-        if (player.customProperties.TryGetValue(PunPlayerScores.PlayerScoreProp, out teamId))
+        object time;
+		if (player.customProperties.TryGetValue(PunPlayerScores.PlayerTimeProp, out time))
         {
-            return (int)teamId;
+			return (float)time;
         }
-
         return 0;
     }
+
+	public static void SetLap(this PhotonPlayer player, int lap)
+	{
+		Hashtable prop = new Hashtable() {{PunPlayerScores.PlayerLapProp, lap}};
+		player.SetCustomProperties(prop);
+	}
+	
+	public static int GetLap(this PhotonPlayer player)
+	{
+		object lap;
+		if (player.customProperties.TryGetValue(PunPlayerScores.PlayerLapProp, out lap))
+		{
+			return (int)lap;
+		}
+		return 0;
+	}
 }
