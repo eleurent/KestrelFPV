@@ -41,11 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 112744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffcc1d657cd6ad9409b44f15d3deb78c, type: 3}
+  m_Script: {fileID: 11500000, guid: 31a12e41d148c0544afde2d2a8c204fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurnDuration: 150
-  BreakDuration: 30
+  TurnDuration: 1
+  BreakDuration: 1
 --- !u!114 &11438310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 112744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043bd8ce63fde7c41a9ee103809fa981, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ba5d108ccfc27d4ebbcebf586e19e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GuiRect:
@@ -78,7 +78,7 @@ MonoBehaviour:
   IsVisible: 1
   AlignBottom: 1
   messages: []
-  Skin: {fileID: 11400000, guid: 0a36872c871b46d4ea5e4e064f3bf975, type: 2}
+  Skin: {fileID: 0}
 --- !u!114 &11485030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,9 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cameras: {fileID: 0}
-  OptionsPanel: {fileID: 0}
+  OptionsCanvas: {fileID: 0}
   RaceManager: {fileID: 0}
   Skin: {fileID: 11400000, guid: 0a36872c871b46d4ea5e4e064f3bf975, type: 2}
+  spawnZoneCenter: {x: 0, y: 0, z: 0}
+  spawnZoneDimension: {x: 1, y: 1, z: 1}
+  spawnZoneRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

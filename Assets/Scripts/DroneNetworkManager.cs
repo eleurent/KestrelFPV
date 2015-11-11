@@ -4,10 +4,13 @@ using System.Collections;
 public class DroneNetworkManager : MonoBehaviour 
 {
 	public GameObject Cameras;
-	public GameObject OptionsPanel;
+	public GameObject OptionsCanvas;
 	public GameObject RaceManager;
 	private GameObject myDrone;
 	public GUISkin Skin;
+	public Vector3 spawnZoneCenter;
+	public Vector3 spawnZoneDimension;
+	public Vector3 spawnZoneRotation;
 
 
 	public void Awake()
@@ -31,15 +34,17 @@ public class DroneNetworkManager : MonoBehaviour
 	void CreatePlayerObject()
 	{
 		// Choose spawn position
-		Vector3 position = new Vector3(26.0f, 1.0f, -40.0f) + (Random.Range(0,6)-3)*Vector3.left + (-Random.Range(0,6))*Vector3.forward + (Random.Range(0,3))*Vector3.up;
+		int positionIndex = PhotonNetwork.player.ID % 8;
+		Vector3 normalizedPosition = 2*((positionIndex % 2) * Vector3.forward + ((positionIndex / 2) % 2) * Vector3.up + ((positionIndex / 4) % 2) * Vector3.right)-Vector3.one;
+		Vector3 position = transform.position + spawnZoneCenter + Vector3.Scale(normalizedPosition, spawnZoneDimension);
 
 		// Spawn a drone
-		myDrone = PhotonNetwork.Instantiate("Drone", position, Quaternion.identity, 0);
+		myDrone = PhotonNetwork.Instantiate("Drone", position, Quaternion.Euler(spawnZoneRotation), 0);
 
 		// Attach local cameras and option panel
 		Cameras.GetComponent<CameraSwitch>().AttachToTarget (myDrone);
-		OptionsPanel.GetComponent<OptionsMenuController> ().SetDrone (myDrone);
-		RaceManager.GetComponent<RaceManager> ().drone = myDrone;
+		OptionsCanvas.GetComponent<OptionsMenuController> ().SetDrone (myDrone);
+		myDrone.GetComponent<ResetDrone> ().setRaceManager(RaceManager.GetComponent<RaceManager>());
 
 		// Use physics
 		myDrone.GetComponent<Rigidbody> ().useGravity = true;
@@ -70,7 +75,7 @@ public class DroneNetworkManager : MonoBehaviour
 		Debug.Log("OnMasterClientSwitched: " + player);
 		
 		string message;
-		InRoomChat chatComponent = GetComponent<InRoomChat>();  // if we find a InRoomChat component, we print out a short message
+		SceneChat chatComponent = GetComponent<SceneChat>();  // if we find a InRoomChat component, we print out a short message
 		
 		if (chatComponent != null)
 		{

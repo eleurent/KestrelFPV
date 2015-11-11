@@ -12,9 +12,8 @@ public class RaceManager : MonoBehaviour {
 	public GameObject scoreCanvas;
 	public Text lapText;
 	public Text timeText;
-	public GameObject drone;
 
-	private bool raceStarted = false;
+	public bool raceStarted = false;
 	private int currentGate = 0;
 	private int currentLap = 0;
 	private double startTime;
@@ -102,6 +101,10 @@ public class RaceManager : MonoBehaviour {
 		timeText.color = c;
 	}
 
+	public Transform PreviousGatePosition() {
+		return currentGate > 0 ? gates [currentGate - 1].transform : null;
+	}
+
 	public void ResetMyScore() {
 		PhotonNetwork.player.SetLap (0);
 		PhotonNetwork.player.SetTime (0);
@@ -122,7 +125,7 @@ public class RaceManager : MonoBehaviour {
 		}
 		if (shouldShowScoreCanvas && !scoreCanvas.activeSelf) {
 			scoreCanvas.SetActive (true);
-			scoreCanvas.GetComponentInChildren<PlayerScoreList>().shouldUpdate = true;
+			scoreCanvas.GetComponentInChildren<RaceScoreList>().shouldUpdate = true;
 		}
 		if (!shouldShowScoreCanvas && scoreCanvas.activeSelf) {
 			scoreCanvas.SetActive(false);

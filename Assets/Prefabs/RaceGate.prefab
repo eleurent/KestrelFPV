@@ -25,9 +25,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182426}
-  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: -30.5300007, y: 2, z: -4.98000002}
-  m_LocalScale: {x: .100000001, y: .100000001, z: .100000009}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.96999979, y: 4.98999977, z: 21.2099991}
+  m_LocalScale: {x: .150000006, y: .150000006, z: .150000006}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,6 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3558f435639f54b86b000c750b4991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gateSound: {fileID: 8300000, guid: 04b58644bb5dc00498f0ee4b95216d7f, type: 3}
+  enabledColor: {r: .829999983, g: .689999998, b: .209999993, a: 1}
+  nextColor: {r: .899999976, g: .75, b: .280000001, a: .400000006}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -5,6 +5,7 @@ public class ResetDrone : MonoBehaviour {
 	private Vector3 initialPosition;
 	private Quaternion initialRotation;
 	private PhotonView m_PhotonView;
+	private RaceManager raceManager;
 	// Use this for initialization
 	void Start () {
 		initialPosition = transform.position;
@@ -28,10 +29,19 @@ public class ResetDrone : MonoBehaviour {
 	}
 
 	public void Restart() {
-		transform.position = initialPosition;
-		transform.rotation = initialRotation;
+		if (raceManager != null && raceManager.raceStarted && raceManager.PreviousGatePosition () != null) {
+			transform.position = raceManager.PreviousGatePosition ().position;
+			transform.rotation = raceManager.PreviousGatePosition ().rotation;
+		} else {
+			transform.position = initialPosition;
+			transform.rotation = initialRotation;
+		}
 		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
 		GetComponent<ControllerManager> ().resetYawRef();
+	}
+
+	public void setRaceManager (RaceManager rm) {
+		raceManager = rm;
 	}
 }

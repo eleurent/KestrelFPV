@@ -17,7 +17,7 @@ public class LobbyMenu : MonoBehaviour
 	private string roomName = "myRoom";
 	public static string MAP_KEY = "map";
 	public static string MODE_KEY = "m";
-	public static string[] MAPS = new string[] {"Viking", "Forest", "Stadium"};
+	public static string[] MAPS = new string[] {"MultiScene"};
 	public static string[] MODES = new string[] {"Freeflight", "Race"};
 	private int selectedMap = 0;
 	private int selectedMode = 0;
