@@ -15,7 +15,7 @@ KestrelFPV is a quadcopter simulator made with Unity3D. It is meant as a tool to
 
 ## Download
 
-[Windows](http://www.edouardleurent.com/binaries/KestrelFPV_Setup.exe) | [Mac](http://www.edouardleurent.com/binaries/KestrelFPV_Mac.zip) | [Linux](http://www.edouardleurent.com/binaries/KestrelFPV_Linux_x86_64.zip)
+[Windows](http://www.edouardleurent.com/static/KestrelFPV_Setup.exe) | [Mac](http://www.edouardleurent.com/static/KestrelFPV_Mac.zip) | [Linux](http://www.edouardleurent.com/static/KestrelFPV_Linux_x86_64.zip)
 
 ## Videos
 
